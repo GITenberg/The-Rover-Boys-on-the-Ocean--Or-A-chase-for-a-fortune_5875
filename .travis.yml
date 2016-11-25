@@ -1,0 +1,61 @@
+sudo: required
+dist: trusty
+language: ruby
+
+before_install:
+before_install:
+- gem install asciidoctor -v 1.5.2
+- gem install tilt
+- sudo pip install git+https://github.com/gitenberg-dev/gitberg
+- sudo pip install pillow
+- sudo pip install cssutils
+- sudo pip install docutils
+- sudo pip install roman
+- sudo pip install git+https://github.com/gitenberg-dev/pg-epubmaker
+script:
+- VERSION=`ruby -e "require 'yaml'; meta = YAML.load_file('metadata.yaml'); puts meta['_version'];"`
+- git clone https://github.com/gitenberg-dev/asciidoctor-htmlbook.git
+- sudo pip install -r asciidoctor-htmlbook/gitberg-machine/requirements.txt
+
+- /usr/bin/python -c "from gitenberg import travis; travis.build_epub()"
+- ebook-convert book.epub book.mobi
+- xvfb-run ebook-convert book.epub book.pdf
+branches:
+  only:
+  - master
+notifications:
+  webhooks:
+    urls:
+      - https://unglue.it/api/travisci/webhook
+    on_success: always
+    on_failure: never
+    on_start: never
+deploy:
+  skip_cleanup: true
+  provider: releases
+  api_key:
+    secure: nXsVlyao1Tw+ML34JJbebc7LW0mH4wg1AX9xFAIg2EUYuQAEpNbgXyE5UwG3/k9PcuVuFV/ht7IzfrWxqm0xgV7w0EbvXeTWmaY1Ahf9722qnHFxTEtNstmrBm4tZvnGXli/A484p4LKVJL5ehDHR4Zb5Mvz/BimZTzs8/WqLqZvM9TaRyE2IeAU9Nm58+HCx/w9W9vc3Aa6Dgl+0NM+ykh8l1Ulq+slejpj/d0LXQT4Nj0PLwS1wKi5o2EUUJPY1dnFjruodzJVOFaUV+1tlCS4L9eTvaEwlbcsFS+HSTjn+GzU/+zPLzhIEHcKjP5XPeXh5RXdYkyQE7ZG4jeEEOmnX6TmL6BpEWYqOLkBmp0YP4pXOW8FTxIJ6uUubLGp2cVCnelhYM6Sqs3Q5xr3rDZ1rmeQlJEmtdun0lPyfOmfyge8Cz86f8gC6daNA0jOFac1ORpQzUcOeRl9m1PBvwQuxgOZPPK3pgCYz/KLQFfkHEa7SZAxCWRpyLlyPwVFLi8TpuFnK1tc/UbQURN9tb3rX22T5rbK3P5r3XM9TCgyn111eiTqL3Je7fW0VlpONW57Q2cTsNKBVBk8OYyos5vFSZeqQqNWJW6DLFi3Bt8ACL6KB9fupUtdcYdlWYCIwCJ36pQBB6Xu/kdoHM40dhOMUGLIfPEjL4vLbyl7EZs=
+  file:
+    - book.epub
+    - book.mobi
+    - book.pdf
+  "on":
+    repo: GITenberg/The-Rover-Boys-on-the-Ocean--Or-A-chase-for-a-fortune_5875
+addons:
+  apt:
+    packages:
+    - xsltproc
+    - xvfb
+    - calibre
+    - python-pip
+    - git
+    - python-dev
+    - libjpeg-dev
+    - libpng-dev
+    - libfreetype6
+    - libfreetype6-dev
+    - zlib1g-dev
+    - python-lxml
+    - libxml2-dev
+    - libxslt1-dev
+    - tidy
