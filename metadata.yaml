@@ -1,5 +1,8 @@
 _repo: The-Rover-Boys-on-the-Ocean--Or-A-chase-for-a-fortune_5875
-_version: 0.1.0
+_version: 0.2.0
+covers:
+- cover_type: generated
+  image_path: cover.png
 creator:
   author:
     agent_name: Stratemeyer, Edward
@@ -18,6 +21,8 @@ description: Brothers Tom, Sam and Dick Rover have an insatiable thirst for adve
   during a school vacation. Originally intended as a relaxing retreat, their maritime
   sojourn takes on an unexpected -- and potentially deadly -- dimension. Will they
   make it back to their beloved Putnam Hall in one piece?
+edition_identifiers:
+  edition_id: http://www.gutenberg.org/ebooks/5875#The-Rover-Boys-on-the-Ocean--Or-A-chase-for-a-fortune
 gutenberg_bookshelf: Children's Book Series
 gutenberg_issued: '2004-06-01'
 gutenberg_type: Text
